@@ -3,7 +3,7 @@ package com.CitasClinicas.demo.Modelos;
 import java.util.Date;
 import jakarta.persistence.*;
 
-//@Entity
+@Entity
 @Table(name = "entradas_hospital")
 public class EntradaHospital {
     @Id

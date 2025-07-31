@@ -3,7 +3,7 @@ package com.CitasClinicas.demo.Modelos;
 import java.util.Date;
 import jakarta.persistence.*;
 
-//@Entity
+@Entity
 @Table(name = "citas")
 public class Cita {
     @Id
@@ -23,6 +23,10 @@ public class Cita {
     @ManyToOne
     @JoinColumn(name = "clinica_id")
     private Clinica clinica;
+
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
 
     public Long getId() {
         return id;
@@ -86,5 +90,13 @@ public class Cita {
 
     public void setClinica(Clinica clinica) {
         this.clinica = clinica;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 }

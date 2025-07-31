@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import jakarta.persistence.*;
 
-//@Entity
+@Entity
 @Table(name = "expedientes_clinicos")
 public class ExpedienteClinico {
     @Id
@@ -19,6 +19,10 @@ public class ExpedienteClinico {
     @ManyToOne
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
+
+    @ManyToOne
+    @JoinColumn(name = "medico_id")
+    private Medico medico;
 
     public Long getId() {
         return id;
@@ -50,5 +54,13 @@ public class ExpedienteClinico {
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
+    }
+
+    public Medico getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
     }
 }
