@@ -3,7 +3,7 @@ package com.CitasClinicas.demo.Modelos;
 import java.util.List;
 import jakarta.persistence.*;
 
-//@Entity
+@Entity
 @Table(name = "clinicas")
 public class Clinica {
     @Id
@@ -17,6 +17,14 @@ public class Clinica {
 
     @OneToMany(mappedBy = "clinica")
     private List<Cita> citas;
+
+    @ManyToMany
+    @JoinTable(
+        name = "clinica_medico",
+        joinColumns = @JoinColumn(name = "clinica_id"),
+        inverseJoinColumns = @JoinColumn(name = "medico_id")
+    )
+    private List<Medico> medicos;
 
     public Long getId() {
         return id;
@@ -64,5 +72,13 @@ public class Clinica {
 
     public void setCitas(List<Cita> citas) {
         this.citas = citas;
+    }
+
+    public List<Medico> getMedicos() {
+        return medicos;
+    }
+
+    public void setMedicos(List<Medico> medicos) {
+        this.medicos = medicos;
     }
 }
