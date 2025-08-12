@@ -1,7 +1,7 @@
 package com.CitasClinicas.demo.Modelos;
 
-import java.util.List;
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "clinicas")
@@ -9,22 +9,21 @@ public class Clinica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    @Column(nullable = false)
     private String nombre;
+    
     private String direccion;
     private String telefono;
     private String email;
 
-    @OneToMany(mappedBy = "clinica")
+    @OneToMany(mappedBy = "clinica", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Cita> citas;
 
-    @ManyToMany
-    @JoinTable(
-        name = "clinica_medico",
-        joinColumns = @JoinColumn(name = "clinica_id"),
-        inverseJoinColumns = @JoinColumn(name = "medico_id")
-    )
-    private List<Medico> medicos;
+    // Se cambia la relación @ManyToMany por @OneToMany
+    // que apunta a la nueva entidad de unión ClinicaMedico
+    @OneToMany(mappedBy = "clinica", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ClinicaMedico> medicos;
 
     public Long getId() {
         return id;
@@ -65,6 +64,15 @@ public class Clinica {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    // El getter y setter para 'medicos' ahora manejan una lista de ClinicaMedico
+    public List<ClinicaMedico> getMedicos() {
+        return medicos;
+    }
+
+    public void setMedicos(List<ClinicaMedico> medicos) {
+        this.medicos = medicos;
+    }
 
     public List<Cita> getCitas() {
         return citas;
@@ -72,13 +80,5 @@ public class Clinica {
 
     public void setCitas(List<Cita> citas) {
         this.citas = citas;
-    }
-
-    public List<Medico> getMedicos() {
-        return medicos;
-    }
-
-    public void setMedicos(List<Medico> medicos) {
-        this.medicos = medicos;
     }
 }

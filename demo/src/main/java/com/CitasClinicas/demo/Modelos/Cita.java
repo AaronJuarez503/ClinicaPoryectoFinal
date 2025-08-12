@@ -1,32 +1,33 @@
 package com.CitasClinicas.demo.Modelos;
 
 import java.util.Date;
+import java.math.BigDecimal;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "citas")
+@Table(name = "cita")
 public class Cita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private Date fechaHora;
-    private String motivo;
     private String estado;
-    private String notasAtenciones;
-    private Double costo;
+    private String motivo;
+    private String notaAtencion;
+    private BigDecimal costo;
 
-    @ManyToOne
-    @JoinColumn(name = "medico_id")
-    private Medico medico;
-
-    @ManyToOne
-    @JoinColumn(name = "clinica_id")
-    private Clinica clinica;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cupo_atencion_id")
+    private CupoDeAtencion cupoDeAtencion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "clinica_id")
+    private Clinica clinica;
 
     public Long getId() {
         return id;
@@ -60,28 +61,36 @@ public class Cita {
         this.estado = estado;
     }
 
-    public String getNotasAtenciones() {
-        return notasAtenciones;
+    public String getNotaAtencion() {
+        return notaAtencion;
     }
 
-    public void setNotasAtenciones(String notasAtenciones) {
-        this.notasAtenciones = notasAtenciones;
+    public void setNotaAtencion(String notaAtencion) {
+        this.notaAtencion = notaAtencion;
     }
 
-    public Double getCosto() {
+    public BigDecimal getCosto() {
         return costo;
     }
 
-    public void setCosto(Double costo) {
+    public void setCosto(BigDecimal costo) {
         this.costo = costo;
     }
 
-    public Medico getMedico() {
-        return medico;
+    public Paciente getPaciente() {
+        return paciente;
     }
 
-    public void setMedico(Medico medico) {
-        this.medico = medico;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public CupoDeAtencion getCupoDeAtencion() {
+        return cupoDeAtencion;
+    }
+
+    public void setCupoDeAtencion(CupoDeAtencion cupoDeAtencion) {
+        this.cupoDeAtencion = cupoDeAtencion;
     }
 
     public Clinica getClinica() {
@@ -92,11 +101,7 @@ public class Cita {
         this.clinica = clinica;
     }
 
-    public Paciente getPaciente() {
-        return paciente;
-    }
+    // --- Getters y setters para el nuevo campo 'medico' ---
 
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
+    // ----------------------------------------------------
 }
