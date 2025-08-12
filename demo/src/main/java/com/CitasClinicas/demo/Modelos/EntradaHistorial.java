@@ -5,78 +5,90 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "entrada_historial") // Nombre de la tabla corregido
-public class EntradaHistorial { // Nombre de la clase corregido
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    private Date fecha;
-    private String tipoEntrada;
-    private String descripcion;
-    private String detallesAdicionales;
+@Table(name = "entradas_historial")
+public class EntradaHistorial {
 
-    @ManyToOne
-    @JoinColumn(name = "idProfesionalResponsable")
-    private Usuario profesionalResponsable;
-    
-    @ManyToMany(mappedBy = "entradas")
-    private List<ExpedienteClinico> expedientes;
-    
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+@Column(nullable = false)
+private String tipoEntrada;
 
-    public Date getFecha() {
-        return fecha;
-    }
+private String diagnostico;
+private String notas;
+@Temporal(TemporalType.TIMESTAMP)
+private Date fecha;
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
+private String tratamiento; // Se añade este campo para la última consulta
+ @ManyToOne
+@JoinColumn(name = "medico_id")
+private Medico medico;
 
-    public String getTipoEntrada() {
-        return tipoEntrada;
-    }
+@ManyToMany(mappedBy = "entradas")
+private List<ExpedienteClinico> expedientes;
 
-    public void setTipoEntrada(String tipoEntrada) {
-        this.tipoEntrada = tipoEntrada;
-    }
+// Getters y Setters
+public Long getId() {
+return id;
+}
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+public void setId(Long id) {
+this.id = id;
+}
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+ public String getDiagnostico() {
+return diagnostico;
+}
+ public void setDiagnostico(String diagnostico) {
+this.diagnostico = diagnostico;
+}
 
-    public String getDetallesAdicionales() {
-        return detallesAdicionales;
-    }
+public String getTipoEntrada() {
+return tipoEntrada;
+}
 
-    public void setDetallesAdicionales(String detallesAdicionales) {
-        this.detallesAdicionales = detallesAdicionales;
-    }
+public void setTipoEntrada(String tipoEntrada) {
+this.tipoEntrada = tipoEntrada;
+}
 
-    public Usuario getProfesionalResponsable() {
-        return profesionalResponsable;
-    }
+public String getNotas() {
+return notas;
+}
 
-    public void setProfesionalResponsable(Usuario profesionalResponsable) {
-        this.profesionalResponsable = profesionalResponsable;
-    }
+public void setNotas(String notas) {
+this.notas = notas;
+}
 
-    public List<ExpedienteClinico> getExpedientes() {
-        return expedientes;
-    }
+public Date getFecha() {
+return fecha;
+}
 
-    public void setExpedientes(List<ExpedienteClinico> expedientes) {
-        this.expedientes = expedientes;
-    }
+public void setFecha(Date fecha) {
+this.fecha = fecha;
+}
+
+public Medico getMedico() {
+return medico;
+}
+
+public void setMedico(Medico medico) {
+this.medico = medico;
+}
+
+public List<ExpedienteClinico> getExpedientes() {
+return expedientes;
+}
+
+public void setExpedientes(List<ExpedienteClinico> expedientes) {
+this.expedientes = expedientes;
+}
+
+public String getTratamiento() {
+return tratamiento;
+}
+
+public void setTratamiento(String tratamiento) {
+this.tratamiento = tratamiento;
+}
 }

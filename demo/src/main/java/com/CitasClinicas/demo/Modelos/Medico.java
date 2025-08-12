@@ -1,24 +1,31 @@
 package com.CitasClinicas.demo.Modelos;
 
-import java.util.List;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "medicos")
 public class Medico extends Usuario {
+    
     private String especialidad;
     private String licenciaMedica;
     private String experiencia;
+    
+    // Propiedad 'activo' agregada para solucionar el error de mapeo.
+    private boolean activo = true;
 
-    @OneToMany(mappedBy = "medico")
-    private List<Cita> citas;
+    @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CupoDeAtencion> cuposDeAtencion = new ArrayList<>();
 
-    @OneToMany(mappedBy = "medico")
-    private List<ExpedienteClinico> expedientesClinicos;
+    @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ClinicaMedico> clinicas = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "medicos")
-    private List<Clinica> clinicas;
-
+    // Constructor por defecto requerido por JPA
+    public Medico() {
+        super();
+    }
+    
+    // Getters y Setters
     public String getEspecialidad() {
         return especialidad;
     }
@@ -42,28 +49,29 @@ public class Medico extends Usuario {
     public void setExperiencia(String experiencia) {
         this.experiencia = experiencia;
     }
-
-    public List<Cita> getCitas() {
-        return citas;
+    
+    // Getter y Setter para la propiedad 'activo'
+    public boolean isActivo() {
+        return activo;
     }
 
-    public void setCitas(List<Cita> citas) {
-        this.citas = citas;
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
-    public List<ExpedienteClinico> getExpedientesClinicos() {
-        return expedientesClinicos;
+    public List<CupoDeAtencion> getCuposDeAtencion() {
+        return cuposDeAtencion;
     }
 
-    public void setExpedientesClinicos(List<ExpedienteClinico> expedientesClinicos) {
-        this.expedientesClinicos = expedientesClinicos;
+    public void setCuposDeAtencion(List<CupoDeAtencion> cuposDeAtencion) {
+        this.cuposDeAtencion = cuposDeAtencion;
     }
 
-    public List<Clinica> getClinicas() {
+    public List<ClinicaMedico> getClinicas() {
         return clinicas;
     }
 
-    public void setClinicas(List<Clinica> clinicas) {
+    public void setClinicas(List<ClinicaMedico> clinicas) {
         this.clinicas = clinicas;
     }
 }

@@ -5,20 +5,43 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String nombre;
     private String apellido;
     private String email;
     private String telefono;
     private String passwordHash;
     private String role;
+    
+    @Temporal(TemporalType.TIMESTAMP) // Se recomienda para manejar fechas
     private Date fechaRegistro;
+    
     private boolean active;
 
+    // Constructor por defecto, requerido por JPA
+    public Usuario() {
+        this.fechaRegistro = new Date();
+        this.active = true;
+    }
+
+    // Constructor con campos básicos
+    public Usuario(String nombre, String apellido, String email, String telefono, String passwordHash, String role) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.telefono = telefono;
+        this.passwordHash = passwordHash;
+        this.role = role;
+        this.fechaRegistro = new Date();
+        this.active = true;
+    }
+
+    // Getters y Setters
     public Long getId() {
         return id;
     }

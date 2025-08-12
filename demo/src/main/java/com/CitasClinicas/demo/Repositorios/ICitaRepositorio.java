@@ -1,13 +1,14 @@
 package com.CitasClinicas.demo.Repositorios;
+
 import com.CitasClinicas.demo.Modelos.Cita;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.Date;
-import java.util.List;
-
+ 
 public interface ICitaRepositorio extends JpaRepository<Cita, Long> {
-    // Búsquedas por paciente
+   List<Cita> findByEstado(String estado);
     @Query("SELECT c FROM Cita c WHERE c.paciente.id = :pacienteId AND c.fechaHora BETWEEN :fechaInicio AND :fechaFin")
     List<Cita> buscarCitasPorPacienteYRangoFecha(
         @Param("pacienteId") Long pacienteId,

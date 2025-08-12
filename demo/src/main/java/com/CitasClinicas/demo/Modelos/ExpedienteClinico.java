@@ -1,66 +1,105 @@
 package com.CitasClinicas.demo.Modelos;
 
+import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import jakarta.persistence.*;
 
 @Entity
 @Table(name = "expedientes_clinicos")
 public class ExpedienteClinico {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    private Date fechaCreacion;
-    
-    @OneToMany(mappedBy = "expedienteClinico")
-    private List<EntradaHospital> entradasHospital;
-    
-    @ManyToOne
-    @JoinColumn(name = "paciente_id")
-    private Paciente paciente;
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
+@Column(nullable = false)
+@Temporal(TemporalType.TIMESTAMP)
+private Date fechaCreacion;
 
-    @ManyToOne
-    @JoinColumn(name = "medico_id")
-    private Medico medico;
+@ManyToMany
+@JoinTable(
+name = "expediente_entrada", // Nombre de la tabla de unión más simple
+joinColumns = @JoinColumn(name = "expediente_id"),
+inverseJoinColumns = @JoinColumn(name = "entrada_id"),
+uniqueConstraints = @UniqueConstraint(columnNames = {"expediente_id", "entrada_id"})
+)
+private List<EntradaHistorial> entradas = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
+@ManyToOne(fetch = FetchType.EAGER)
+@JoinColumn(name = "paciente_id", nullable = false)
+private Paciente paciente;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+@ManyToOne(fetch = FetchType.EAGER)
+@JoinColumn(name = "medico_id", nullable = false)
+private Medico medico;
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
+@Column(name = "activo")
+private boolean activo = true;
+ 
+@Column(name = "notas", length = 1000)
+ private String notas;
 
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
+public ExpedienteClinico() {
+this.fechaCreacion = new Date();
+this.activo = true;
+}
 
-    public List<EntradaHospital> getEntradasHospital() {
-        return entradasHospital;
-    }
+// Getters y Setters
+public Long getId() {
+return id;
+}
 
-    public void setEntradasHospital(List<EntradaHospital> entradasHospital) {
-        this.entradasHospital = entradasHospital;
-    }
+public void setId(Long id) {
+this.id = id;
+ }
 
-    public Paciente getPaciente() {
-        return paciente;
-    }
+ public Date getFechaCreacion() {
+return fechaCreacion;
+}
 
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
+public void setFechaCreacion(Date fechaCreacion) {
+this.fechaCreacion = fechaCreacion;
+}
+public List<EntradaHistorial> getEntradas() {
+return entradas;
+}
 
-    public Medico getMedico() {
-        return medico;
-    }
+public void setEntradas(List<EntradaHistorial> entradas) {
+this.entradas = entradas;
+}
 
-    public void setMedico(Medico medico) {
-        this.medico = medico;
-    }
+ public void agregarEntrada(EntradaHistorial entrada) {
+ this.entradas.add(entrada);
+}
+
+public Paciente getPaciente() {
+ return paciente;
+}
+
+ public void setPaciente(Paciente paciente) {
+this.paciente = paciente;
+}
+
+public Medico getMedico() {
+return medico;
+}
+
+ public void setMedico(Medico medico) {
+this.medico = medico;
+}
+
+ public boolean isActivo() {
+ return activo;
+}
+
+public void setActivo(boolean activo) {
+ this.activo = activo;
+ }
+
+ public String getNotas() {
+return notas;
+}
+
+ public void setNotas(String notas) {
+this.notas = notas;
+ }
 }

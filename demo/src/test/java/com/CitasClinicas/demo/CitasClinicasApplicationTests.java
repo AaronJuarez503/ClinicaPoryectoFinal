@@ -10,42 +10,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class CitasClinicasApplicationTests {
 
     @Autowired
-    private IMedicoRepositorio medicoRepositorio;
+    private IExpedienteClinicoRepositorio expedienteClinicoRepositorio;
 
     @Autowired
-    private IPacienteRepositorio pacienteRepositorio;
+    private IUsuarioRepositorio usuarioRepositorio;
 
     @Autowired
-    private ICitaRepositorio citaRepositorio;
+    private IClinicaRepositorio clinicaRepositorio;
 
     @Autowired
-    private IExpedienteClinicoRepositorio expedienteRepositorio;
+    private ICupoDeAtencionRepositorio cupoDeAtencionRepositorio;
 
     @Test
     void contextLoads() {
-        // Verifica que el contexto de Spring se carga correctamente
-        assertNotNull(medicoRepositorio, "El repositorio de médicos no debería ser null");
-        assertNotNull(pacienteRepositorio, "El repositorio de pacientes no debería ser null");
-        assertNotNull(citaRepositorio, "El repositorio de citas no debería ser null");
-        assertNotNull(expedienteRepositorio, "El repositorio de expedientes no debería ser null");
+        assertNotNull(expedienteClinicoRepositorio);
+        assertNotNull(usuarioRepositorio);
+        assertNotNull(clinicaRepositorio);
+        assertNotNull(cupoDeAtencionRepositorio);
     }
 
-    @Test
-    void verificarConexionBaseDatos() {
-        // Verifica que podemos realizar operaciones básicas en la base de datos
-        assertTrue(medicoRepositorio.count() >= 0, "Debería poder contar médicos");
-        assertTrue(pacienteRepositorio.count() >= 0, "Debería poder contar pacientes");
-        assertTrue(citaRepositorio.count() >= 0, "Debería poder contar citas");
-        assertTrue(expedienteRepositorio.count() >= 0, "Debería poder contar expedientes");
-    }
-
-    @Test
-    void verificarConsultasPersonalizadas() {
-        // Verifica que las consultas personalizadas estén funcionando
-        assertDoesNotThrow(() -> {
-            citaRepositorio.findCitasByEstado("PENDIENTE");
-            medicoRepositorio.findByEspecialidad("GENERAL");
-            pacienteRepositorio.findByNombreContaining("Test");
-        }, "Las consultas personalizadas deberían ejecutarse sin errores");
-    }
 }

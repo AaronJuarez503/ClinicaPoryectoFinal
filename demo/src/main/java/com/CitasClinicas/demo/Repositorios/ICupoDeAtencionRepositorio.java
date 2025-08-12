@@ -1,7 +1,7 @@
 package com.CitasClinicas.demo.Repositorios;
 
 import com.CitasClinicas.demo.Modelos.CupoDeAtencion;
-import com.CitasClinicas.demo.Modelos.Medico;
+//import com.CitasClinicas.demo.Modelos.Medico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

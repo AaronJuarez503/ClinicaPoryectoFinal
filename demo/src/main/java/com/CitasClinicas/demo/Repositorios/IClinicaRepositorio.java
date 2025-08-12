@@ -1,7 +1,9 @@
 package com.CitasClinicas.demo.Repositorios;
 import com.CitasClinicas.demo.Modelos.Clinica;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import java.util.List;
 public interface IClinicaRepositorio extends JpaRepository<Clinica, Long> {
     // Búsquedas básicas
     List<Clinica> findByNombre(String nombre);

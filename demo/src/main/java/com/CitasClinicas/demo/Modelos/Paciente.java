@@ -1,36 +1,24 @@
 package com.CitasClinicas.demo.Modelos;
 
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
-import jakarta.persistence.*;
 
 @Entity
-@Table(name = "pacientes")
 public class Paciente extends Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
     private Date fechaNacimiento;
     private String direccion;
 
-    @OneToMany(mappedBy = "paciente")
-    private List<ExpedienteClinico> expedientesClinicos;
+    // Lado "inverso" de la relación, lo que significa que el otro lado
+    // (ExpedienteClinico) es el propietario y tiene la clave foránea.
+    @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ExpedienteClinico expedienteClinico;
 
-    @OneToMany(mappedBy = "paciente")
-    private List<EntradaHospital> entradasHospital;
-
-    @OneToMany(mappedBy = "paciente")
+    // Relación con Cita.
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Cita> citas;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // Getters y Setters
     public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -47,20 +35,12 @@ public class Paciente extends Usuario {
         this.direccion = direccion;
     }
 
-    public List<ExpedienteClinico> getExpedientesClinicos() {
-        return expedientesClinicos;
+    public ExpedienteClinico getExpedienteClinico() {
+        return expedienteClinico;
     }
 
-    public void setExpedientesClinicos(List<ExpedienteClinico> expedientesClinicos) {
-        this.expedientesClinicos = expedientesClinicos;
-    }
-
-    public List<EntradaHospital> getEntradasHospital() {
-        return entradasHospital;
-    }
-
-    public void setEntradasHospital(List<EntradaHospital> entradasHospital) {
-        this.entradasHospital = entradasHospital;
+    public void setExpedienteClinico(ExpedienteClinico expedienteClinico) {
+        this.expedienteClinico = expedienteClinico;
     }
 
     public List<Cita> getCitas() {
